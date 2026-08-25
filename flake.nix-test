@@ -4,20 +4,15 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     helium-flake.url = "github:oxcl/nix-flake-helium-browser";
     helium-flake.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-pl94.url = "github:NixOS/nixpkgs/ebe4301cbd8f81c4f8d3244b3632338bbeb6d49c";
     home-manager = {
     	   url = "github:nix-community/home-manager/release-26.05";
 	   inputs.nixpkgs.follows = "nixpkgs";
    	   };
   };
 
-  outputs = { self, nixpkgs, home-manager, helium-flake, nixpkgs-pl94, ... }:
+  outputs = { self, nixpkgs, home-manager, helium-flake,  ... }:
   		let
 			system = "x86_64-linux";
-			pkgs-pl94 = import nixpkgs-pl94 {
-        		inherit system;
-        		config.allowUnfree = true;
-      			};
 		in {
 		nixosConfigurations.nixos-btw = nixpkgs.lib.nixosSystem {
 			inherit system;
@@ -30,14 +25,10 @@ homeConfigurations.mooments1 = home-manager.lib.homeManagerConfiguration {
         modules = [
           ./home.nix
 	    {
-	nixpkgs.overlays = [
-            helium-flake.overlays.default
-	(final: prev: {
-              prismlauncher = pkgs-pl94.prismlauncher;
-            })
-          ];
-        }
-      ];
+	    nixpkgs.overlays = [ helium-flake.overlays.default ];
+           }	
+	];
+      };
     };
-  };
+
 }

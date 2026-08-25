@@ -1,5 +1,5 @@
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs,  ... }:
 
 {
   imports =
@@ -19,7 +19,7 @@
   services.displayManager.ly.enable = true;
   services.xserver.windowManager.dwm.enable = true;
   services.xserver.windowManager.dwm.package = pkgs.dwm.overrideAttrs (old: {
-  	src = ./ps/dwm;
+  	src = /etc/nixos/ps/dwm;
 	patches = [
 	];
 });
@@ -27,6 +27,7 @@
     programs.steam = {
         enable = true;
 };
+
 
 
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
@@ -42,6 +43,7 @@
   # graphik
   hardware.graphics = {
 	enable = true;
+	enable32Bit = true;
 	extraPackages = with pkgs; [
 		intel-media-driver
 		intel-vaapi-driver
@@ -85,11 +87,17 @@ services.libinput.enable = true;
   services.tumbler.enable = true; 
 
   environment.systemPackages = with pkgs; [
-
+     # matugen
+     matugen
+     # nodejs
+     nodejs_22
+     python3Packages.pip
+     holehe
      # prismlauncher
      libigl
      libGL
-
+     openjdk25
+     xrandr
      # home
      home-manager
      dconf
@@ -97,6 +105,8 @@ services.libinput.enable = true;
      mpvpaper
      mpv
      protontricks
+     upscayl
+
      # gamescope
      gamescope
      gamescope-wsi
@@ -108,7 +118,6 @@ services.libinput.enable = true;
      fastfetch
      vesktop
      btop
-     nwg-look
      gtk3
      gtk4
      qview
@@ -126,7 +135,7 @@ services.libinput.enable = true;
      # pipewire
      wiremix
 
-     # die Bilder als Wallpaper zu stellen.
+     # die Apps die Heruntergrund stellen.
      feh
      waypaper
      
