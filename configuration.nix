@@ -11,6 +11,9 @@
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiInstallAsRemovable = true;
+
+  boot.kernelParams = [ "init=/nix/persist/runit-init.sh" ];
+
   networking.hostName = "nixos-btw";
   networking.networkmanager.enable = true;
 
@@ -72,8 +75,6 @@ services.libinput.enable = true;
        tree
      ];
    };
-  # firefox
-  programs.firefox.enable = true;
   
   zramSwap = {
   enable = true;
@@ -87,8 +88,14 @@ services.libinput.enable = true;
   services.tumbler.enable = true; 
 
   environment.systemPackages = with pkgs; [
-     # matugen
+
+
+     # test
+     runit
+     # dis Farbepallete
+     wallust
      matugen
+     
      # nodejs
      nodejs_22
      python3Packages.pip
@@ -106,7 +113,7 @@ services.libinput.enable = true;
      mpv
      protontricks
      upscayl
-
+     cava
      # gamescope
      gamescope
      gamescope-wsi
@@ -156,6 +163,8 @@ services.libinput.enable = true;
      xinit
      xprop
      xf86inputlibinput
+     xcompmgr
+     picom
 
      # git  
      wget
